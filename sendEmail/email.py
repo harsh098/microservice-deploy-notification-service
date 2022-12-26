@@ -6,8 +6,8 @@ def notification(message):
         message = json.loads(message)
         mp3_fid = message["mp3_fid"]
         sender_address = os.environ.get("GMAIL_ADDRESS")
-        receiver_address = os.environ.get("GMAIL_PASSWORD")
-
+        sender_password = os.environ.get("GMAIL_PASSWORD")
+        receiver_address = message["username"]
 
         msg = EmailMessage()
         msg.set_content(f'''
@@ -15,8 +15,8 @@ def notification(message):
             MP3 file ID:: {mp3_fid} is now ready to Download
         ''')
         msg["Subject"] = "MP3 Download"
-        msg["From"]= sender.address
-        msg["To"]=receiver.address
+        msg["From"]= sender_address
+        msg["To"]=receiver_address
 
         session = smtplib.SMTP("smtp.gmail.com", 587)
         session.starttls()
